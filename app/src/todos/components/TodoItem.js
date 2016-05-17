@@ -11,7 +11,7 @@ export default todo => (
 
 const styles = StyleSheet.create({
 	notSynced: {
-		borderLeftColor: 'yellow',
+		borderLeftColor: 'orange',
 		borderLeftWidth: 2
 	},
 	row: {

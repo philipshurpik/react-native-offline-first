@@ -47,7 +47,10 @@ export const createTodo = todo => {
 	return {
 		url: 'todos',
 		method: 'post',
-		body: todo,
+		body: {
+			...todo,
+			id: randomString()
+		},
 		meta: {
 			id: todo.id || randomString()
 		},

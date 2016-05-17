@@ -45,15 +45,14 @@ export default function todos(state = INITIAL_STATE, action) {
 				...state,
 				items: replaceById(state.items, {
 					...action.payload,
-					id: action.meta.id,
 					_isNew: true,
 					_notSynced: true
-				}, action.meta.id)
+				})
 			};
 		case types.CREATE_TODO_SUCCESS:
 			return {
 				...state,
-				items: replaceById(state.items, action.payload, action.meta.id)
+				items: replaceById(state.items, action.payload)
 			};
 
 		/** ANY - NO_CONNECTION **/

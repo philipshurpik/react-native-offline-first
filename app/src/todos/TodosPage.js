@@ -3,12 +3,12 @@ import React from 'react';
 import {Component, View, StyleSheet, Text} from 'react-native';
 import List from '../common/List';
 import TodoItem from './components/TodoItem';
-import {loadTodos} from './todos.actions.js';
+import AddTodo from './components/AddTodo';
+import {loadTodos, saveTodo} from './todos.actions.js';
 
 class TodosPage extends Component {
 	componentWillMount() {
-		const {dispatch} = this.props;
-		dispatch(loadTodos());
+		this.props.dispatch(loadTodos());
 	}
 
 	render() {
@@ -18,6 +18,7 @@ class TodosPage extends Component {
 				<View style={styles.header}>
 					<Text>Todos</Text>
 				</View>
+				<AddTodo onCreate={this.onCreate.bind(this)}/>
 				{status.storageLoaded && <List
 					items={todos.items}
 					status={todos.status}
@@ -27,6 +28,10 @@ class TodosPage extends Component {
 				/>}
 			</View>
 		);
+	}
+
+	onCreate(value) {
+		this.props.dispatch(saveTodo({value}));
 	}
 }
 
