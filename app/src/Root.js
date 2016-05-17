@@ -5,9 +5,9 @@ import store from './store';
 import TodosPage from './todos/TodosPage';
 
 const Root = () => (
-    <Provider store={store}>
-        <TodosPage />
-    </Provider>
+	<Provider store={store}>
+		<TodosPage />
+	</Provider>
 );
 
 export default Root;

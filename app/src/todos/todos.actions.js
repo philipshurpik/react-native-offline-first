@@ -1,14 +1,60 @@
-export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
-export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
+const randomString = () => Math.floor(Math.random() * Math.pow(10, 16)).toString(36);
 
-export function increment() {
-    return {
-        type: INCREMENT_COUNTER
-    }
-}
+export const LOAD_TODOS_START = 'LOAD_TODOS_START';
+export const LOAD_TODOS_SUCCESS = 'LOAD_TODOS_SUCCESS';
+export const LOAD_TODOS_NO_CONNECTION = 'LOAD_TODOS_NO_CONNECTION';
 
-export function decrement() {
-    return {
-        type: DECREMENT_COUNTER
-    }
-}
+export const loadTodos = () => {
+	return {
+		url: 'todos',
+		method: 'get',
+		types: {
+			start: LOAD_TODOS_START,
+			success: LOAD_TODOS_SUCCESS,
+			noConnection: LOAD_TODOS_NO_CONNECTION
+		}
+	};
+};
+
+export const saveTodo = todo =>
+	!todo.id || todo._isNew ?
+		createTodo(todo) :
+		updateTodo(todo);
+
+export const UPDATE_TODO_START = 'UPDATE_TODO_START';
+export const UPDATE_TODO_SUCCESS = 'UPDATE_TODO_SUCCESS';
+export const UPDATE_TODO_NO_CONNECTION = 'UPDATE_TODO_NO_CONNECTION';
+export const updateTodo = todo => {
+	return {
+		url: `todos/${todo.id}`,
+		method: 'put',
+		body: todo,
+		meta: {
+			originalTodo: originalTodo
+		},
+		types: {
+			start: UPDATE_TODO_START,
+			success: UPDATE_TODO_SUCCESS,
+			noConnection: UPDATE_TODO_NO_CONNECTION
+		}
+	}
+};
+
+export const CREATE_TODO_START = 'CREATE_TODO_START';
+export const CREATE_TODO_SUCCESS = 'CREATE_TODO_SUCCESS';
+export const CREATE_TODO_NO_CONNECTION = 'CREATE_TODO_NO_CONNECTION';
+export const createTodo = todo => {
+	return {
+		url: 'todos',
+		method: 'post',
+		body: todo,
+		meta: {
+			id: todo.id || randomString()
+		},
+		types: {
+			start: CREATE_TODO_START,
+			success: CREATE_TODO_SUCCESS,
+			noConnection: CREATE_TODO_NO_CONNECTION
+		}
+	};
+};

@@ -1,37 +1,44 @@
 import {connect} from 'react-redux';
 import React from 'react';
-import {Component, View} from 'react-native';
-import {List} from 'common/components';
-import CustomerItem from './components/TodoItem';
-import {loadCustomers} from '../customers/customers.actions.js';
-import {Actions as routes} from 'react-native-router-flux';
+import {Component, View, StyleSheet} from 'react-native';
+import List from '../common/List';
+import TodoItem from './components/TodoItem';
+import {loadTodos} from './todos.actions.js';
 
-class CustomersPage extends Component {
-    componentWillMount() {
-        const {dispatch} = this.props;
-        dispatch(loadCustomers({silent: true}));
-    }
+class TodosPage extends Component {
+	componentWillMount() {
+		const {dispatch} = this.props;
+		dispatch(loadTodos());
+	}
 
-    render() {
-        const {customers, dispatch} = this.props;
-        const visibleCustomers = customers.items.filter(item => !item.isArchived);
-        return (
-            <View style={commonStyles.pageContainer}>
-                <List
-                    items={visibleCustomers}
-                    status={customers.status}
-                    renderItem={item =>
-						<CustomerItem
-							{...item}
-							onPress={() => routes.customerEditPage({id: item.id, animationType: 'modalSide'})}
-						/>
-					}
-                    placeholder="You don't have any customer yet"
-                    onRefresh={() => dispatch(loadCustomers())}
-                />
-            </View>
-        );
-    }
+	render() {
+		const {todos, dispatch} = this.props;
+		return (
+			<View style={styles.pageContainer}>
+				<View style={styles.header}>
+					<Text>Todos</Text>
+				</View>
+				<List
+					items={todos.items}
+					status={todos.status}
+					renderItem={item => <TodoItem {...item}/>}
+					placeholder="You don't have any todo yet"
+					onRefresh={() => dispatch(loadTodos())}
+				/>
+			</View>
+		);
+	}
 }
 
-export default connect(state => state)(CustomersPage);
+const styles = StyleSheet.create({
+	pageContainer: {
+		flex: 1,
+		backgroundColor: 'white',
+		paddingTop: 20
+	},
+	header: {
+		height: 44
+	}
+});
+
+export default connect(state => state)(TodosPage);

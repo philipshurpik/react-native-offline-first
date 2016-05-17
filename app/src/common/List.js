@@ -22,7 +22,7 @@ export default class List extends Component {
 		if (!items.length) {
 			if (status && status.refreshing) {
 				return <View style={style}>
-					<Loader />
+					<Text>Loading...</Text>
 				</View>;
 			}
 			if (placeholder) {
@@ -38,9 +38,9 @@ export default class List extends Component {
 			renderRow={this.renderRow.bind(this)}
 			renderHeader={this.renderHeader.bind(this)}
 			refreshControl={status ? <RefreshControl
-				refreshing={status.silent ? false : status.refreshing}
+				refreshing={status.refreshing}
 				onRefresh={onRefresh}
-				tintColor={colors.lightGray}
+				tintColor='lightGray'
 			/> : undefined}
 		/>;
 	}
@@ -55,8 +55,8 @@ export default class List extends Component {
 	}
 
 	renderHeader() {
-		const {syncTime, offline} = this.props.status || {};
-		return <ListStatus syncTime={syncTime} offline={offline}/>;
+		const {offline} = this.props.status || {};
+		return offline ? <Text>Offline</Text> : <View/>;
 	}
 }
 
@@ -68,9 +68,7 @@ List.propTypes = {
 	items: PropTypes.array,
 	status: PropTypes.shape({
 		refreshing: React.PropTypes.bool.isRequired,
-		offline: React.PropTypes.bool,
-		syncTime: React.PropTypes.number,
-		silent: React.PropTypes.bool
+		offline: React.PropTypes.bool
 	})
 };
 
@@ -89,6 +87,6 @@ const styles = StyleSheet.create({
 	},
 	placeholderText: {
 		fontSize: 20,
-		color: colors.gray
+		color: 'gray'
 	}
 });
