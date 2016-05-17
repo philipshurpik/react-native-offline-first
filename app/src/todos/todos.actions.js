@@ -4,7 +4,19 @@ export const LOAD_TODOS_START = 'LOAD_TODOS_START';
 export const LOAD_TODOS_SUCCESS = 'LOAD_TODOS_SUCCESS';
 export const LOAD_TODOS_NO_CONNECTION = 'LOAD_TODOS_NO_CONNECTION';
 
-export const loadTodos = () => {
+export const syncTodos = () => {
+	return (dispatch, getState) => {
+		const itemsToSync = getState().todos.items.filter(item => item._notSynced);
+		if (!itemsToSync.length) {
+			return dispatch(loadTodos());
+		}
+		return Promise.all(itemsToSync.map(item => dispatch(saveTodo(item))))
+			.then(() => dispatch(loadTodos()));
+	}
+};
+
+
+const loadTodos = () => {
 	return {
 		url: 'todos',
 		method: 'get',

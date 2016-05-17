@@ -8,6 +8,11 @@ export const apiCallMiddleware = ({dispatch, getState}) => {
 };
 
 export const apiCall = ({dispatch, url, method = 'get', types, body, meta}) => {
+	if (body) {
+		delete body._isNew;
+		delete body._notSynced;
+	}
+
 	const opts = {
 		method,
 		headers: {

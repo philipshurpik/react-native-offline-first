@@ -52,7 +52,9 @@ export default function todos(state = INITIAL_STATE, action) {
 		case types.CREATE_TODO_SUCCESS:
 			return {
 				...state,
-				items: replaceById(state.items, action.payload)
+				items: replaceById(state.items, {
+					...action.payload
+				})
 			};
 
 		/** ANY - NO_CONNECTION **/
