@@ -1,6 +1,9 @@
 # react-native-offline-first-example
 Example of offline-first app with React Native  
 
+Warning :)
+Just initial commit, not final example
+
 ----------
 #### Using:
 * `redux` - Flux implementation  
