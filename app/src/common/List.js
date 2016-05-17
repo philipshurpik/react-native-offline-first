@@ -1,4 +1,5 @@
-import React, {Component, StyleSheet, View, Text, ListView, RefreshControl, PropTypes, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {Component, StyleSheet, View, Text, ListView, RefreshControl, PropTypes, TouchableOpacity} from 'react-native';
 
 export default class List extends Component {
 	constructor(props) {
@@ -25,24 +26,23 @@ export default class List extends Component {
 					<Text>Loading...</Text>
 				</View>;
 			}
-			if (placeholder) {
-				return <View style={[styles.placeholder, style]}>
-					<Text style={styles.placeholderText}>{placeholder}</Text>
-				</View>
-			}
 		}
-		return <ListView
-			style={style}
-			enableEmptySections={true}
-			dataSource={this.state.ds}
-			renderRow={this.renderRow.bind(this)}
-			renderHeader={this.renderHeader.bind(this)}
-			refreshControl={status ? <RefreshControl
+		return <View style={[styles.list]}>
+			{!items.length && placeholder && <View style={styles.placeholder}>
+				<Text style={styles.placeholderText}>{placeholder}</Text>
+			</View>}
+			<ListView
+				style={[styles.list, style]}
+				enableEmptySections={true}
+				dataSource={this.state.ds}
+				renderRow={this.renderRow.bind(this)}
+				renderHeader={this.renderHeader.bind(this)}
+				refreshControl={status ? <RefreshControl
 				refreshing={status.refreshing}
 				onRefresh={onRefresh}
-				tintColor='lightGray'
 			/> : undefined}
-		/>;
+			/>
+		</View>;
 	}
 
 	renderRow(item) {
@@ -56,7 +56,7 @@ export default class List extends Component {
 
 	renderHeader() {
 		const {offline} = this.props.status || {};
-		return offline ? <Text>Offline</Text> : <View/>;
+		return offline ? <View style={styles.offline}><Text>Offline</Text></View> : <View/>;
 	}
 }
 
@@ -73,6 +73,9 @@ List.propTypes = {
 };
 
 const styles = StyleSheet.create({
+	list: {
+		flex: 1
+	},
 	row: {
 		padding: 10,
 		backgroundColor: 'white',
@@ -81,12 +84,17 @@ const styles = StyleSheet.create({
 	},
 	placeholder: {
 		padding: 20,
-		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
 	placeholderText: {
 		fontSize: 20,
 		color: 'gray'
+	},
+	offline: {
+		height: 20,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'orange'
 	}
 });

@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import React from 'react';
-import {Component, View, StyleSheet} from 'react-native';
+import {Component, View, StyleSheet, Text} from 'react-native';
 import List from '../common/List';
 import TodoItem from './components/TodoItem';
 import {loadTodos} from './todos.actions.js';
@@ -12,19 +12,19 @@ class TodosPage extends Component {
 	}
 
 	render() {
-		const {todos, dispatch} = this.props;
+		const {todos, dispatch, status} = this.props;
 		return (
 			<View style={styles.pageContainer}>
 				<View style={styles.header}>
 					<Text>Todos</Text>
 				</View>
-				<List
+				{status.storageLoaded && <List
 					items={todos.items}
 					status={todos.status}
 					renderItem={item => <TodoItem {...item}/>}
-					placeholder="You don't have any todo yet"
+					placeholder="You don't have any active todo :)"
 					onRefresh={() => dispatch(loadTodos())}
-				/>
+				/>}
 			</View>
 		);
 	}
@@ -37,7 +37,11 @@ const styles = StyleSheet.create({
 		paddingTop: 20
 	},
 	header: {
-		height: 44
+		height: 44,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderColor: 'lightgray',
+		borderBottomWidth: 1
 	}
 });
 

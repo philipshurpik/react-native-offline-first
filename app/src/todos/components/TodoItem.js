@@ -1,4 +1,5 @@
-import React, {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 
 export default todo => (
 	<TouchableOpacity style={todo._notSynced && styles.notSynced} onPress={todo.onPress}>
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
 		marginBottom: 5
 	},
 	name: {
-		color: 'darkGray'
+		color: 'gray'
 	}
 });
 
