@@ -1,8 +1,11 @@
 # react-native-offline-first-example
 Example of offline-first app with React Native  
 
-Warning :)
-Just initial commit, not final example
+`npm start` - to run app 
+`npm run server` - to start simple server
+
+How it works - described in presentation:
+https://docs.google.com/presentation/d/1IYV9ABKLZJPhBXgcvn2vkrYHohTpO9NkGo-oG58ZfwM
 
 ----------
 #### Using:
