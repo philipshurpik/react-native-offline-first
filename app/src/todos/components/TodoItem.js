@@ -1,8 +1,12 @@
 import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import {isNoConnection, isError} from '../../common/itemSyncUtils';
 
 export default todo => (
-	<TouchableOpacity style={todo._notSynced && styles.notSynced} onPress={todo.onPress}>
+	<TouchableOpacity
+		style={[isNoConnection(todo) && styles.noConnection, isError(todo) && styles.error]}
+		onPress={todo.onPress}
+	>
 		<View style={styles.row}>
 			<Text style={styles.name}>{todo.value}</Text>
 		</View>
@@ -10,8 +14,12 @@ export default todo => (
 );
 
 const styles = StyleSheet.create({
-	notSynced: {
+	noConnection: {
 		borderLeftColor: 'orange',
+		borderLeftWidth: 2
+	},
+	error: {
+		borderLeftColor: 'red',
 		borderLeftWidth: 2
 	},
 	row: {

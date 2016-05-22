@@ -4,11 +4,11 @@ import {Component, View, StyleSheet, Text} from 'react-native';
 import List from '../common/List';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
-import {syncTodos, saveTodo} from './todos.actions.js';
+import {startSyncLoop, saveTodo} from './todos.actions.js';
 
 class TodosPage extends Component {
 	componentWillMount() {
-		this.props.dispatch(syncTodos());
+		this.props.dispatch(startSyncLoop());
 	}
 
 	render() {
@@ -24,7 +24,7 @@ class TodosPage extends Component {
 					status={todos.status}
 					renderItem={item => <TodoItem {...item}/>}
 					placeholder="You don't have any active todo :)"
-					onRefresh={() => dispatch(syncTodos())}
+					onRefresh={() => dispatch(startSyncLoop())}
 				/>}
 			</View>
 		);
