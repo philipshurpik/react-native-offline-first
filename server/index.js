@@ -28,6 +28,10 @@ function validate(req, res, next) {
 	if (!req.body.id || !req.body.value) {
 		return res.sendStatus(400);
 	}
+	if (req.body.value.length < 2) {
+		res.status("Value should be minimum 2 digits length");
+		return res.sendStatus(400);
+	}
 	next();
 }
 
