@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
-import React from 'react';
-import {Component, View, StyleSheet, Text} from 'react-native';
+import React, {Component} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
 import List from '../common/List';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
-import {startSyncLoop, saveTodo} from './todos.actions.js';
+import {startSyncLoop, syncTodos, saveTodo} from './todos.actions.js';
 
 class TodosPage extends Component {
 	componentWillMount() {
@@ -24,7 +24,7 @@ class TodosPage extends Component {
 					status={todos.status}
 					renderItem={item => <TodoItem {...item}/>}
 					placeholder="You don't have any active todo :)"
-					onRefresh={() => dispatch(startSyncLoop())}
+					onRefresh={() => dispatch(syncTodos())}
 				/>}
 			</View>
 		);

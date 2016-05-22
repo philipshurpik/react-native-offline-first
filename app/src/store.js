@@ -3,11 +3,12 @@ import {applyMiddleware, createStore} from 'redux';
 import { AsyncStorage } from 'react-native';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
-import {apiCallMiddleware} from './common/apiCall';
+import {apiCallMiddleware} from './utils/api/apiCallMiddleware';
+import {clearBodyMiddleware} from './utils/api/clearBodyMiddleware';
 import rootReducer from './rootReducer';
 
 const logger = createLogger();
-const middleware = applyMiddleware(apiCallMiddleware, thunk, logger);
+const middleware = applyMiddleware(clearBodyMiddleware, apiCallMiddleware, thunk, logger);
 
 const store = autoRehydrate()(createStore)(rootReducer, middleware);
 persistStore(store, {storage: AsyncStorage});

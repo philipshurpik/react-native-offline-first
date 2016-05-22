@@ -1,7 +1,7 @@
 import * as types from './todos.actions';
 import networkStatus from '../common/networkStatus.reducer';
-import {setSyncStatus, isNotSync} from '../common/itemSyncUtils';
-import {addOrReplaceItem, replaceById, removeById, itemComparator} from '../common/itemUtils';
+import {setSyncStatus, isNotSync} from '../utils/itemSyncUtils';
+import {addOrReplaceItem, replaceById, removeById, itemComparator} from '../utils/itemUtils';
 
 const INITIAL_STATE = {
 	items: [],

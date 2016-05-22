@@ -1,5 +1,5 @@
-import React from 'react';
-import {Component, StyleSheet, View, Text, ListView, RefreshControl, PropTypes, TouchableOpacity} from 'react-native';
+import React, {Component, PropTypes} from 'react';
+import {StyleSheet, View, Text, ListView, RefreshControl, TouchableOpacity} from 'react-native';
 
 export default class List extends Component {
 	constructor(props) {

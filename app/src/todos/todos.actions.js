@@ -1,8 +1,8 @@
-import {makeSyncLoop, isNotSync} from '../common/itemSyncUtils';
+import {makeSyncLoop, isNotSync} from '../utils/itemSyncUtils';
 
 export const startSyncLoop = () => makeSyncLoop(syncTodos);
 
-const syncTodos = () => {
+export const syncTodos = () => {
 	return (dispatch, getState) => {
 		const itemsToSync = getState().todos.items.filter(item => isNotSync(item));
 		return Promise.all(itemsToSync.map(item => dispatch(saveTodo(item))))

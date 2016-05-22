@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
-import {isNoConnection, isError} from '../../common/itemSyncUtils';
+import {isNoConnection, isError} from '../../utils/itemSyncUtils';
 
 export default todo => (
 	<TouchableOpacity
