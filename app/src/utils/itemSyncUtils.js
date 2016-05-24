@@ -10,6 +10,9 @@ export const isError = item => (item._status === SYNC_STATUS.ERROR);
 
 export const setSyncStatus = (action) => {
 	if (/START$/.test(action.type)) {
+		if (isNotSync(action.payload)) {
+			return action.payload._status;
+		}
 		return SYNC_STATUS.START;
 	}
 	if (/NO_CONNECTION$/.test(action.type)) {
@@ -20,14 +23,30 @@ export const setSyncStatus = (action) => {
 	}
 };
 
-export const makeSyncLoop = (syncAction) => dispatch => {
-	if (makeSyncLoop.timer) {
-		return;
-	}
-	function next() {
-		makeSyncLoop.timer = setTimeout(() => {
-			dispatch(makeSyncLoop())
-		}, 1000 * 60);
-	}
-	return dispatch(syncAction()).then(next, next);
+export const makeSyncLoop = syncAction => {
+	let timer = null;
+
+	return function syncLoop(options) {
+		return dispatch => {
+			if (timer) {
+				clearTimeout(timer);
+			}
+			function next() {
+				timer = setTimeout(() => {
+					timer = null;
+					dispatch(syncLoop({...options, silent: true}));
+				}, 1000 * 60);
+			}
+
+			return dispatch(syncAction(options)).then(next, next);
+		}
+	};
+};
+
+export const mergeItems = (prev, next) => {
+	const notSync = prev.filter(isNotSync);
+	const notSyncIds = notSync.map(item => item.id);
+	return next
+		.filter(item => notSyncIds.indexOf(item.id) === -1)
+		.concat(notSync);
 };

@@ -1,45 +1,42 @@
 import * as types from './todos.actions';
 import networkStatus from '../common/networkStatus.reducer';
-import {setSyncStatus, isNotSync} from '../utils/itemSyncUtils';
+import {setSyncStatus, mergeItems} from '../utils/itemSyncUtils';
 import {addOrReplaceItem, replaceById, removeById, itemComparator} from '../utils/itemUtils';
 
 const INITIAL_STATE = {
 	items: [],
-	status: networkStatus()
+	status: networkStatus(),
+	persistVersion: 1
 };
 
 export default function todos(state = INITIAL_STATE, action) {
+	if (state.persistVersion !== INITIAL_STATE.persistVersion) {
+		return todos(INITIAL_STATE, action);
+	}
+
 	switch (action.type) {
-	/** LIST LOAD **/
+		/** LIST LOAD **/
 		case types.LOAD_TODOS_START:
-		case types.LOAD_TODOS_ERROR:
+		case types.LOAD_TODOS_NO_CONNECTION:
 			return {
 				...state,
 				status: networkStatus(state.status, action)
 			};
 		case types.LOAD_TODOS_SUCCESS:
-			const notSyncItems = state.items.filter(item => isNotSync(item));
-			const notSyncIds = notSyncItems.map(item => item.id);
-			const items = action.payload
-					.filter(item => !item.isArchived)
-					.filter(item => notSyncIds.indexOf(item.id) === -1)
-					.concat(notSyncItems)
-					.sort(itemComparator);
-
 			return {
 				...state,
 				status: networkStatus(state.status, action),
-				items
+				items: mergeItems(state.items, action.payload).sort(itemComparator)
 			};
 
-	/** ITEM START **/
+		/** ITEM START **/
 		case types.CREATE_TODO_START:
 			return {
 				...state,
 				items: addOrReplaceItem(state.items, {...action.payload, _status: setSyncStatus(action)})
 			};
 
-	/** ITEM SET ITEM & STATUSES: START & NO_CONNECTION & ERROR **/
+		/** ITEM SET ITEM & STATUSES: START & NO_CONNECTION & ERROR **/
 		case types.UPDATE_TODO_START:
 		case types.DELETE_TODO_START:
 		case types.CREATE_TODO_NO_CONNECTION:
@@ -52,7 +49,7 @@ export default function todos(state = INITIAL_STATE, action) {
 				items: replaceById(state.items, {...action.payload, _status: setSyncStatus(action)})
 			};
 
-	/** ITEM SUCCESS **/
+		/** ITEM SUCCESS **/
 		case types.CREATE_TODO_SUCCESS:
 			return {
 				...state,
@@ -65,7 +62,7 @@ export default function todos(state = INITIAL_STATE, action) {
 				items: replaceById(state.items, action.payload)
 			};
 
-	/** ITEM DELETE ERROR **/
+		/** ITEM DELETE ERROR **/
 		case types.DELETE_TODO_ERROR:
 			return {
 				...state,
@@ -76,7 +73,7 @@ export default function todos(state = INITIAL_STATE, action) {
 				})
 			};
 
-	/** NOT SYNCED ITEM DELETE **/
+		/** NOT SYNCED ITEM DELETE **/
 		case types.DELETE_NEW_TODO:
 			return {
 				...state,

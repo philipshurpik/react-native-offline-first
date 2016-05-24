@@ -1,19 +1,20 @@
 import {makeSyncLoop, isNotSync} from '../utils/itemSyncUtils';
 
-export const startSyncLoop = () => makeSyncLoop(syncTodos);
-
-export const syncTodos = () => {
+const syncTodos = (options) => {
 	return (dispatch, getState) => {
-		const itemsToSync = getState().todos.items.filter(item => isNotSync(item));
-		return Promise.all(itemsToSync.map(item => dispatch(saveTodo(item))))
-				.catch(err => {})
-				.then(() => dispatch(loadTodos({silent: true})));
+
+		return dispatch(loadTodos(options))
+			.then(() => {
+				const itemsToSync = getState().todos.items.filter(isNotSync);
+				return Promise.all(itemsToSync.map(item => dispatch(saveTodo(item))));
+			});
 	}
 };
+export const startSyncLoop = makeSyncLoop(syncTodos);
 
 export const LOAD_TODOS_START = 'LOAD_TODOS_START';
 export const LOAD_TODOS_SUCCESS = 'LOAD_TODOS_SUCCESS';
-export const LOAD_TODOS_ERROR = 'LOAD_TODOS_ERROR';
+export const LOAD_TODOS_NO_CONNECTION = 'LOAD_TODOS_NO_CONNECTION';
 export const loadTodos = options => {
 	return {
 		url: 'todos',
@@ -24,15 +25,15 @@ export const loadTodos = options => {
 		types: {
 			start: LOAD_TODOS_START,
 			success: LOAD_TODOS_SUCCESS,
-			error: LOAD_TODOS_ERROR
+			noConnection: LOAD_TODOS_NO_CONNECTION
 		}
 	};
 };
 
 export const saveTodo = todo =>
-		!todo.id || todo._isNew ?
-				createTodo(todo) :
-				updateTodo(todo);
+	!todo.id || todo._isNew ?
+		createTodo(todo) :
+		updateTodo(todo);
 
 export const UPDATE_TODO_START = 'UPDATE_TODO_START';
 export const UPDATE_TODO_SUCCESS = 'UPDATE_TODO_SUCCESS';
@@ -87,8 +88,8 @@ export const deleteTodo = id => (dispatch, getState) => {
 	const todo = getState().todos.items.find(item => item.id === id);
 
 	return dispatch(todo._isNew ?
-			deleteNewTodo(todo.id) :
-			deleteExistingTodo(todo)
+		deleteNewTodo(todo.id) :
+		deleteExistingTodo(todo)
 	);
 };
 
