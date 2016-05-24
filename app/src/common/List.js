@@ -38,9 +38,10 @@ export default class List extends Component {
 				renderRow={this.renderRow.bind(this)}
 				renderHeader={this.renderHeader.bind(this)}
 				refreshControl={status ? <RefreshControl
-				refreshing={status.refreshing}
-				onRefresh={onRefresh}
-			/> : undefined}
+					refreshing={status.silent ? false : status.refreshing}
+					onRefresh={onRefresh}
+				/> : undefined
+				}
 			/>
 		</View>;
 	}

@@ -5,9 +5,11 @@ const INITIAL_NETWORK_STATUS = {
 
 export default function networkStatus(state = INITIAL_NETWORK_STATUS, action = {}) {
 	if (/START$/.test(action.type)) {
+		const silent = action.meta ? action.meta.silent : false;
 		state = {
 			...state,
-			refreshing: true
+			refreshing: true,
+			silent
 		};
 	}
 	if (/SUCCESS/.test(action.type)) {

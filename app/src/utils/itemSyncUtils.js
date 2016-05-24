@@ -35,7 +35,7 @@ export const makeSyncLoop = syncAction => {
 				timer = setTimeout(() => {
 					timer = null;
 					dispatch(syncLoop({...options, silent: true}));
-				}, 1000 * 60);
+				}, 1000 * 20);
 			}
 
 			return dispatch(syncAction(options)).then(next, next);
