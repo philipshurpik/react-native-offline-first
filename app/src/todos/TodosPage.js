@@ -4,7 +4,7 @@ import {View, StyleSheet, Text} from 'react-native';
 import List from '../common/List';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
-import {startSyncLoop, saveTodo} from './todos.actions.js';
+import {startSyncLoop, saveTodo, deleteTodo} from './todos.actions.js';
 
 class TodosPage extends Component {
 	componentWillMount() {
@@ -13,6 +13,7 @@ class TodosPage extends Component {
 
 	render() {
 		const {todos, dispatch, status} = this.props;
+		const visibleItems = todos.items.filter(item => !item.isArchived);
 		return (
 			<View style={styles.pageContainer}>
 				<View style={styles.header}>
@@ -20,9 +21,10 @@ class TodosPage extends Component {
 				</View>
 				<AddTodo onCreate={this.onCreate.bind(this)}/>
 				{status.storageLoaded && <List
-					items={todos.items}
+					items={visibleItems}
 					status={todos.status}
-					renderItem={item => <TodoItem {...item}/>}
+					renderItem={item => <TodoItem onDelete={this.onDelete.bind(this)} {...item}/>}
+					onItemSelect={this.onToggle.bind(this)}
 					placeholder="You don't have any active todo :)"
 					onRefresh={() => dispatch(startSyncLoop())}
 				/>}
@@ -31,7 +33,15 @@ class TodosPage extends Component {
 	}
 
 	onCreate(value) {
-		this.props.dispatch(saveTodo({value}));
+		this.props.dispatch(saveTodo({value, completed: false}));
+	}
+
+	onToggle(item) {
+		this.props.dispatch(saveTodo({...item, completed: !item.completed}));
+	}
+
+	onDelete(id) {
+		this.props.dispatch(deleteTodo(id));
 	}
 }
 

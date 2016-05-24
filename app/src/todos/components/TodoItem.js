@@ -3,14 +3,22 @@ import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import {isNoConnection, isError} from '../../utils/itemSyncUtils';
 
 export default todo => (
-	<TouchableOpacity
-		style={[isNoConnection(todo) && styles.noConnection, isError(todo) && styles.error]}
-		onPress={todo.onPress}
-	>
-		<View style={styles.row}>
-			<Text style={styles.name}>{todo.value}</Text>
-		</View>
-	</TouchableOpacity>
+	<View style={[
+		isNoConnection(todo) && styles.noConnection,
+		isError(todo) && styles.error,
+		styles.row
+	]}>
+		<TouchableOpacity>
+			<Text style={[styles.name, todo.completed && styles.completed]}>
+				{todo.value}
+			</Text>
+		</TouchableOpacity>
+		<TouchableOpacity onPress={() => todo.onDelete(todo.id)} style={styles.deleteButton}>
+			<Text style={styles.deleteText}>
+				x
+			</Text>
+		</TouchableOpacity>
+	</View>
 );
 
 const styles = StyleSheet.create({
@@ -29,7 +37,24 @@ const styles = StyleSheet.create({
 		marginBottom: 5
 	},
 	name: {
-		color: 'gray'
+		color: 'black'
+	},
+	completed: {
+		textDecorationLine: 'line-through'
+	},
+	deleteButton: {
+		position: 'absolute',
+		top: -10,
+		right: 0,
+		width: 50,
+		height: 50
+	},
+	deleteText: {
+		color: 'darkorange',
+		fontSize: 20,
+		paddingRight: 10,
+		paddingLeft: 25,
+		paddingTop: 6
 	}
 });
 
