@@ -13,7 +13,9 @@
     "offline-first",
     "offline",
     "persist",
-    "asyncstorage"
+    "asyncstorage",
+    "tutorial",
+    "manual"
   ],
   "repository": {
     "type": "git",

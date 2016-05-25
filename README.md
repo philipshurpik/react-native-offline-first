@@ -1,6 +1,8 @@
 # react-native-offline-first-example
 Example of offline-first app with React Native  
 
+Tutorial: How to create/update/delete data when device has no connection and then sync it.
+
 `npm start` - to run app 
 `npm run server` - to start simple server
 
