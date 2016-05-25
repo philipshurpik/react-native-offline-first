@@ -20,13 +20,7 @@ export default class List extends Component {
 
 	render() {
 		const {style, onRefresh, status, items, placeholder} = this.props;
-		if (!items.length) {
-			if (status && status.refreshing) {
-				return <View style={style}>
-					<Text>Loading...</Text>
-				</View>;
-			}
-		}
+
 		return <View style={[styles.list]}>
 			{!items.length && placeholder && <View style={styles.placeholder}>
 				<Text style={styles.placeholderText}>{placeholder}</Text>
