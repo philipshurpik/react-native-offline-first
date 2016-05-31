@@ -3,7 +3,7 @@ import {addOrReplaceItem, replaceById, removeById, itemComparator} from '../util
 
 export default function itemsReducerFactory(types) {
 	
-	return function itemsReducer(itemsState, action) {
+	return function itemsReducer(itemsState = [], action) {
 		switch (action.type) {
 			/** LIST LOAD **/
 			case types.LOAD_SUCCESS:

@@ -25,7 +25,8 @@ export const loadTodos = options => {
 		types: {
 			start: types.LOAD_START,
 			success: types.LOAD_SUCCESS,
-			noConnection: types.LOAD_NO_CONNECTION
+			noConnection: types.LOAD_NO_CONNECTION,
+			error: types.LOAD_ERROR
 		}
 	};
 };

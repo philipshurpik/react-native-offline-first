@@ -1,11 +1,10 @@
-import networkStatus from '../common/networkStatus.reducer';
 import {types} from './todos.actions';
 import itemsReducerFactory from '../factories/itemsReducer.factory';
+import statusReducerFactory from '../factories/statusReducer.factory';
 const items = itemsReducerFactory(types);
+const status = statusReducerFactory(types);
 
 const INITIAL_STATE = {
-	items: [],
-	status: networkStatus(),
 	persistVersion: 1
 };
 
@@ -17,17 +16,7 @@ export default function todos(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case types.LOAD_START:
 		case types.LOAD_NO_CONNECTION:
-			return {
-				...state,
-				status: networkStatus(state.status, action)
-			};
 		case types.LOAD_SUCCESS:
-			return {
-				...state,
-				status: networkStatus(state.status, action),
-				items: items(state.items, action)
-			};
-		
 		case types.CREATE_START:
 		case types.UPDATE_START:
 		case types.DELETE_START:
@@ -43,9 +32,9 @@ export default function todos(state = INITIAL_STATE, action) {
 		case types.DELETE_NEW:
 			return {
 				...state,
+				status: status(state.status, action),
 				items: items(state.items, action)
 			};
-
 		default:
 			return state;
 	}

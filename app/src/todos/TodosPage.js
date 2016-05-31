@@ -12,7 +12,7 @@ class TodosPage extends Component {
 	}
 
 	render() {
-		const {todos, dispatch, status} = this.props;
+		const {todos, dispatch} = this.props;
 		const visibleItems = todos.items.filter(item => !item.isArchived);
 		return (
 			<View style={styles.pageContainer}>
@@ -20,14 +20,14 @@ class TodosPage extends Component {
 					<Text>Todos</Text>
 				</View>
 				<AddTodo onCreate={this.onCreate.bind(this)}/>
-				{status.storageLoaded && <List
+				<List
 					items={visibleItems}
 					status={todos.status}
 					renderItem={item => <TodoItem onDelete={this.onDelete.bind(this)} {...item}/>}
 					onItemSelect={this.onToggle.bind(this)}
 					placeholder="You don't have any active todo :)"
 					onRefresh={() => dispatch(startSyncLoop())}
-				/>}
+				/>
 			</View>
 		);
 	}
