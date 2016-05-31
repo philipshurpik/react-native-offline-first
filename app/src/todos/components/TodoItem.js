@@ -8,11 +8,9 @@ export default todo => (
 		isError(todo) && styles.error,
 		styles.row
 	]}>
-		<TouchableOpacity>
-			<Text style={[styles.name, todo.completed && styles.completed]}>
-				{todo.value}
-			</Text>
-		</TouchableOpacity>
+		<Text style={[styles.name, todo.completed && styles.completed]}>
+			{todo.value}
+		</Text>
 		<TouchableOpacity onPress={() => todo.onDelete(todo.id)} style={styles.deleteButton}>
 			<Text style={styles.deleteText}>
 				x
