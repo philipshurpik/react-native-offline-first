@@ -1,4 +1,7 @@
 import {makeSyncLoop, isNotSync} from '../utils/itemSyncUtils';
+import constFactory from '../factories/const.factory';
+
+export const types = constFactory('todo');
 
 const syncTodos = (options) => {
 	return (dispatch, getState) => {
@@ -12,9 +15,6 @@ const syncTodos = (options) => {
 };
 export const startSyncLoop = makeSyncLoop(syncTodos);
 
-export const LOAD_TODOS_START = 'LOAD_TODOS_START';
-export const LOAD_TODOS_SUCCESS = 'LOAD_TODOS_SUCCESS';
-export const LOAD_TODOS_NO_CONNECTION = 'LOAD_TODOS_NO_CONNECTION';
 export const loadTodos = options => {
 	return {
 		url: 'todos',
@@ -23,9 +23,9 @@ export const loadTodos = options => {
 			...options
 		},
 		types: {
-			start: LOAD_TODOS_START,
-			success: LOAD_TODOS_SUCCESS,
-			noConnection: LOAD_TODOS_NO_CONNECTION
+			start: types.LOAD_START,
+			success: types.LOAD_SUCCESS,
+			noConnection: types.LOAD_NO_CONNECTION
 		}
 	};
 };
@@ -35,28 +35,20 @@ export const saveTodo = todo =>
 		createTodo(todo) :
 		updateTodo(todo);
 
-export const UPDATE_TODO_START = 'UPDATE_TODO_START';
-export const UPDATE_TODO_SUCCESS = 'UPDATE_TODO_SUCCESS';
-export const UPDATE_TODO_NO_CONNECTION = 'UPDATE_TODO_NO_CONNECTION';
-export const UPDATE_TODO_ERROR = 'UPDATE_TODO_ERROR';
 export const updateTodo = todo => {
 	return {
 		url: `todos/${todo.id}`,
 		method: 'put',
 		body: todo,
 		types: {
-			start: UPDATE_TODO_START,
-			success: UPDATE_TODO_SUCCESS,
-			noConnection: UPDATE_TODO_NO_CONNECTION,
-			error: UPDATE_TODO_ERROR
+			start: types.UPDATE_START,
+			success: types.UPDATE_SUCCESS,
+			noConnection: types.UPDATE_NO_CONNECTION,
+			error: types.UPDATE_ERROR
 		}
 	}
 };
 
-export const CREATE_TODO_START = 'CREATE_TODO_START';
-export const CREATE_TODO_SUCCESS = 'CREATE_TODO_SUCCESS';
-export const CREATE_TODO_NO_CONNECTION = 'CREATE_TODO_NO_CONNECTION';
-export const CREATE_TODO_ERROR = 'CREATE_TODO_ERROR';
 export const createTodo = todo => {
 	const id = todo.id || Date.now().toString();
 	return {
@@ -71,19 +63,14 @@ export const createTodo = todo => {
 			id
 		},
 		types: {
-			start: CREATE_TODO_START,
-			success: CREATE_TODO_SUCCESS,
-			noConnection: CREATE_TODO_NO_CONNECTION,
-			error: CREATE_TODO_ERROR
+			start: types.CREATE_START,
+			success: types.CREATE_SUCCESS,
+			noConnection: types.CREATE_NO_CONNECTION,
+			error: types.CREATE_ERROR
 		}
 	};
 };
 
-export const DELETE_TODO_START = 'DELETE_TODO_START';
-export const DELETE_TODO_SUCCESS = 'DELETE_TODO_SUCCESS';
-export const DELETE_TODO_NO_CONNECTION = 'DELETE_TODO_NO_CONNECTION';
-export const DELETE_TODO_ERROR = 'DELETE_TODO_ERROR';
-export const DELETE_NEW_TODO = 'DELETE_NEW_TODO';
 export const deleteTodo = id => (dispatch, getState) => {
 	const todo = getState().todos.items.find(item => item.id === id);
 
@@ -95,7 +82,7 @@ export const deleteTodo = id => (dispatch, getState) => {
 
 const deleteNewTodo = id => {
 	return {
-		type: DELETE_NEW_TODO,
+		type: types.DELETE_NEW,
 		payload: {id}
 	}
 };
@@ -109,10 +96,10 @@ const deleteExistingTodo = todo => {
 			isArchived: true
 		},
 		types: {
-			start: DELETE_TODO_START,
-			success: DELETE_TODO_SUCCESS,
-			noConnection: DELETE_TODO_NO_CONNECTION,
-			error: DELETE_TODO_ERROR
+			start: types.DELETE_START,
+			success: types.DELETE_SUCCESS,
+			noConnection: types.DELETE_NO_CONNECTION,
+			error: types.DELETE_ERROR
 		}
 	};
 };

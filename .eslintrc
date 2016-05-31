@@ -1,0 +1,69 @@
+{
+	"parser": "babel-eslint",
+	"plugins": ["react", "react-native"],
+	"parserOptions": {
+		"ecmaVersion": 7,
+		"sourceType": "module",
+	    "ecmaFeatures": {
+	        "jsx": true,
+			"experimentalObjectRestSpread": true
+	    }
+	},
+	"globals": {
+		"__DEV__": 1,
+		"Promise": 1,
+		"fetch": 1,
+		"it": 1,
+		"describe": 1,
+		"context": 1,
+		"before": 1,
+		"beforeEach": 1,
+		"after": 1,
+		"afterEach": 1,
+		"expect": 1,
+		"testUtils": 1,
+		"sinon": 1
+	},
+	"env": {
+		"node": true
+	},
+	"rules": {
+		"no-unused-vars": ["error", {
+			"varsIgnorePattern": "React",
+			"argsIgnorePattern": "e",
+			"vars": "all",
+			"args": "after-used"
+		}],
+		"no-undef": "error",
+		"no-cond-assign": 1,
+		"no-constant-condition": "error",
+		"no-control-regex": 1,
+		"no-empty-character-class": 1,
+		"no-invalid-regexp": 1,
+		"no-debugger": 1,
+		"no-dupe-args": 1,
+		"no-dupe-keys": 1,
+		"no-duplicate-case": 1,
+		"no-empty": ["error", { "allowEmptyCatch": true }],
+		"no-func-assign": 1,
+		"no-inner-declarations": 1,
+		"no-negated-in-lhs": 1,
+		"no-irregular-whitespace": 1,
+		"no-obj-calls": 1,
+		"no-sparse-arrays": 1,
+		"no-unexpected-multiline": 1,
+		"no-unreachable": 1,
+		"use-isnan": 1,
+		"valid-typeof": 1,
+
+		"no-var": 1,
+		"arrow-spacing": 1,
+		"constructor-super": 1,
+		"no-duplicate-imports": 1,
+		"no-useless-constructor": 1,
+		"object-shorthand": 1,
+		"prefer-arrow-callback": 1,
+
+		"react/jsx-uses-vars": 1
+	}
+}
