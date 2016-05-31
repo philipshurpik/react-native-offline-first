@@ -41,7 +41,7 @@ export default function itemsReducerFactory(types) {
 			case types.DELETE_ERROR:
 				return replaceById(itemsState, {
 					...action.payload,
-					isArchived: false,
+					_isDeleted: false,
 					_status: setSyncStatus(action)
 				});
 
