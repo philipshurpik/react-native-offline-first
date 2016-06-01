@@ -3,7 +3,6 @@ import itemsReducerFactory from './itemsReducer.factory.js';
 import {SYNC_STATUS} from '../utils/itemSyncUtils';
 
 describe('itemsReducer.factory', () => {
-
 	const types = constFactory('customer');
 	const itemsReducer = itemsReducerFactory(types);
 
@@ -86,7 +85,7 @@ describe('itemsReducer.factory', () => {
 			it('should remove deleted flag from item', () => {
 				const deletedItem = {
 					...mockServerItem,
-					isArchived: true
+					_isDeleted: true
 				};
 				mockState.push(deletedItem);
 
@@ -100,7 +99,7 @@ describe('itemsReducer.factory', () => {
 				expect(newState.length).to.equal(2);
 				expect(newState).includes({
 					...mockServerItem,
-					isArchived: false,
+					_isDeleted: false,
 					_status: SYNC_STATUS.ERROR
 				});
 			});

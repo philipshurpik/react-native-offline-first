@@ -1,4 +1,4 @@
-const SYNC_STATUS = {
+export const SYNC_STATUS = {
 	START: "START",
 	NO_CONNECTION: "NO_CONNECTION",
 	ERROR: "ERROR"
