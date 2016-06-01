@@ -35,12 +35,13 @@ export default function statusReducerFactory(types) {
 					refreshing: false,
 					offline: false,
 					// TODO: add error message handling
-					error: action.payload.error
+					error: action.error
 				};
 			case types.CREATE_SUCCESS:
 			case types.UPDATE_SUCCESS:
 			case types.DELETE_SUCCESS:
 				return {
+					...state,
 					error: null
 				};
 			default:
