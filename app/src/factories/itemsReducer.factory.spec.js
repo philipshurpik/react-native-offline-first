@@ -85,7 +85,7 @@ describe('itemsReducer.factory', () => {
 			it('should remove deleted flag from item', () => {
 				const deletedItem = {
 					...mockServerItem,
-					_isDeleted: true
+					isDeleted: true
 				};
 				mockState.push(deletedItem);
 
@@ -99,7 +99,7 @@ describe('itemsReducer.factory', () => {
 				expect(newState.length).to.equal(2);
 				expect(newState).includes({
 					...mockServerItem,
-					_isDeleted: false,
+					isDeleted: false,
 					_status: SYNC_STATUS.ERROR
 				});
 			});

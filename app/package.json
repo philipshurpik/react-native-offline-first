@@ -16,18 +16,18 @@
     "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-subset": "^1.2.2",
-    "mocha": "^2.5.3",
     "babel-cli": "6.9.0",
     "babel-core": "6.7.4",
     "babel-eslint": "6.0.4",
     "babel-plugin-module-alias": "1.2.0",
     "babel-preset-react-native": "1.5.3",
     "buffer": "4.6.0",
+    "chai": "^3.5.0",
+    "chai-subset": "^1.2.2",
     "enzyme": "2.3.0",
     "eslint-plugin-react": "5.1.1",
     "eslint-plugin-react-native": "1.0.0",
+    "mocha": "^2.5.3",
     "mocha-eslint": "2.0.2",
     "react-addons-test-utils": "^15.0.2",
     "react-dom": "^15.0.2"

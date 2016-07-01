@@ -5,15 +5,16 @@ import List from '../common/List';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
 import {startSyncLoop, saveTodo, deleteTodo} from './todos.actions.js';
+import {getActiveTodos} from './todos.reducer';
 
 class TodosPage extends Component {
 	componentWillMount() {
-		this.props.dispatch(startSyncLoop({silent: true}));
+		this.props.onRefresh({silent: true});
 	}
 
 	render() {
-		const {todos, dispatch} = this.props;
-		const visibleItems = todos.items.filter(item => !item.isArchived);
+		const {items, status, onRefresh, onDelete} = this.props;
+
 		return (
 			<View style={styles.pageContainer}>
 				<View style={styles.header}>
@@ -21,27 +22,23 @@ class TodosPage extends Component {
 				</View>
 				<AddTodo onCreate={this.onCreate.bind(this)}/>
 				<List
-					items={visibleItems}
-					status={todos.status}
-					renderItem={item => <TodoItem onDelete={this.onDelete.bind(this)} {...item}/>}
+					items={items}
+					status={status}
+					renderItem={item => <TodoItem onDelete={onDelete} {...item}/>}
 					onItemSelect={this.onToggle.bind(this)}
 					placeholder="You don't have any active todo :)"
-					onRefresh={() => dispatch(startSyncLoop())}
+					onRefresh={onRefresh}
 				/>
 			</View>
 		);
 	}
 
 	onCreate(value) {
-		this.props.dispatch(saveTodo({value, completed: false}));
+		this.props.saveTodo({value, completed: false});
 	}
 
 	onToggle(item) {
-		this.props.dispatch(saveTodo({...item, completed: !item.completed}));
-	}
-
-	onDelete(id) {
-		this.props.dispatch(deleteTodo(id));
+		this.props.saveTodo({...item, completed: !item.completed});
 	}
 }
 
@@ -60,4 +57,13 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default connect(state => state)(TodosPage);
+const mapStateToProps = state => ({
+	items: getActiveTodos(state),
+	status: state.todos.status
+});
+
+export default connect(mapStateToProps, {
+	onRefresh: startSyncLoop,
+	onDelete: deleteTodo,
+	saveTodo: saveTodo
+})(TodosPage);

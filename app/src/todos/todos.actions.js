@@ -94,7 +94,7 @@ const deleteExistingTodo = todo => {
 		method: 'put',
 		body: {
 			...todo,
-			_isDeleted: true
+			isDeleted: true
 		},
 		types: {
 			start: types.DELETE_START,

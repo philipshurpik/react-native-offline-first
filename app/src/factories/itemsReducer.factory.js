@@ -41,7 +41,7 @@ export default function itemsReducerFactory(types) {
 			case types.DELETE_ERROR:
 				return replaceById(itemsState, {
 					...action.payload,
-					_isDeleted: false,
+					isDeleted: false,
 					_status: setSyncStatus(action)
 				});
 
@@ -54,3 +54,5 @@ export default function itemsReducerFactory(types) {
 		}
 	}
 }
+
+export const getActiveItems = (itemsState = []) => itemsState.filter(item => !item.isDeleted);

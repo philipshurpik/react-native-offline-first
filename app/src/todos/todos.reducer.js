@@ -1,5 +1,5 @@
 import {types} from './todos.actions';
-import itemsReducerFactory from '../factories/itemsReducer.factory';
+import itemsReducerFactory, {getActiveItems} from '../factories/itemsReducer.factory';
 import statusReducerFactory from '../factories/statusReducer.factory';
 const items = itemsReducerFactory(types);
 const status = statusReducerFactory(types);
@@ -39,3 +39,5 @@ export default function todos(state = INITIAL_STATE, action) {
 			return state;
 	}
 }
+
+export const getActiveTodos = state => getActiveItems(state.todos.items);
