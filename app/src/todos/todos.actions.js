@@ -3,7 +3,7 @@ import constFactory from '../factories/const.factory';
 
 export const types = constFactory('todo');
 
-const syncTodos = (options) => {
+export const syncTodos = (options) => {
 	return (dispatch, getState) => {
 
 		return dispatch(loadTodos(options))

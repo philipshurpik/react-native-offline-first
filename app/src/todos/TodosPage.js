@@ -1,15 +1,17 @@
 import {connect} from 'react-redux';
 import React, {Component} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, NetInfo} from 'react-native';
 import List from '../common/List';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
-import {startSyncLoop, saveTodo, deleteTodo} from './todos.actions.js';
+import {syncTodos, saveTodo, deleteTodo} from './todos.actions.js';
 import {getActiveTodos} from './todos.reducer';
 
 class TodosPage extends Component {
 	componentWillMount() {
-		this.props.onRefresh({silent: true});
+		NetInfo.addEventListener('change', (reach) =>
+			reach !== 'none' && this.props.onRefresh({silent: true})
+		);
 	}
 
 	render() {
@@ -63,7 +65,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-	onRefresh: startSyncLoop,
+	onRefresh: syncTodos,
 	onDelete: deleteTodo,
 	saveTodo: saveTodo
 })(TodosPage);

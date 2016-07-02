@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "mocha `find src test -name '*spec.js'`"
   },
@@ -30,6 +31,8 @@
     "mocha": "^2.5.3",
     "mocha-eslint": "2.0.2",
     "react-addons-test-utils": "^15.0.2",
-    "react-dom": "^15.0.2"
+    "react-dom": "^15.0.2",
+    "remote-redux-devtools": "^0.3.3",
+    "remote-redux-devtools-on-debugger": "^0.4.7"
   }
 }
