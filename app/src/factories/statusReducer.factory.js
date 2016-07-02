@@ -21,6 +21,9 @@ export default function statusReducerFactory(types) {
 					error: null
 				};
 			case types.LOAD_NO_CONNECTION:
+			case types.CREATE_NO_CONNECTION:
+			case types.UPDATE_NO_CONNECTION:
+			case types.DELETE_NO_CONNECTION:
 				return {
 					...state,
 					refreshing: false,
